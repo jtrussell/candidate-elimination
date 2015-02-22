@@ -1,5 +1,5 @@
 
-describe('Service: hypothesis.hypoHypothesis', function() {
+describe('Service: hypo.hypoHypothesis', function() {
 
   var hypoHypothesis;
 

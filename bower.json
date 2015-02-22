@@ -1,0 +1,25 @@
+{
+  "name": "candidate-elimination",
+  "version": "0.0.0",
+  "private": true,
+  "authors": [
+    "jtrussell"
+  ],
+  "description": "An interactive demonstration of the Candidate Elimination Algorith for machine learning.",
+  "keywords": [
+    "machine",
+    "learning"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.13",
+    "angular-mocks": "~1.3.13"
+  }
+}

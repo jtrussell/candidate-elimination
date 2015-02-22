@@ -1,0 +1,28 @@
+{
+  "name": "candidate-elimination",
+  "version": "0.0.0",
+  "description": "An interactive demonstartion of the Cadidate Elimination Algorithm for machine learning.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtrussell/candidate-elimination.git"
+  },
+  "keywords": [
+    "machine",
+    "learning",
+    "candidate",
+    "elimination"
+  ],
+  "author": "jtrussell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jtrussell/candidate-elimination/issues"
+  },
+  "homepage": "https://github.com/jtrussell/candidate-elimination",
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
+}
