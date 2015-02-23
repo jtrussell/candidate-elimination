@@ -1,39 +1,18 @@
 
-describe('Service: bnd.bndGeneral', function() {
+describe('Service: ex.exExample.service', function() {
+  'use strict';
   
-  var bndGeneral;
+  var exExample;
 
-  beforeEach(module('bnd.bndGeneral'));
+  beforeEach(module('ex.example.service'));
 
-  beforeEach(inject(function(_bndGeneral_) {
-    bndGeneral = _bndGeneral_
+  beforeEach(inject(function(_exExample_) {
+    exExample = _exExample_;
   }));
 
-  it('should be a factory for General Boundary instances', function() {
-    // ...
+  it('should be a factory for Example instances', function() {
+    var ex = exExample(1,2,3,4,false);
+    expect(ex.constructor.name).toBe('Example');
   });
 
-  describe('General Boundary', function() {
-    var g;
-
-    beforeEach(function() {
-      g = bndGeneral();
-    });
-
-    it('should have a set of hypotheses', function() {
-      // ...
-    });
-
-    it('should have a list of observed examples', function() {
-      // ...
-    });
-
-    it('should update when given a new positve hypothesis', function() {
-
-    });
-
-    it('should ignore a new negative hypothesis', function() {
-      // ...
-    });
-  });
 });

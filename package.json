@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/jtrussell/candidate-elimination",
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "gulp-jasmine-phantom": "^1.1.2",
+    "gulp-jshint": "^1.9.2"
   }
 }

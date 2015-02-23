@@ -1,5 +1,6 @@
 
 describe('Service: hypo.hypoHypothesis', function() {
+  'use strict';
 
   var hypoHypothesis;
 
@@ -7,7 +8,7 @@ describe('Service: hypo.hypoHypothesis', function() {
 
   beforeEach(inject(function(_hypoHypothesis_) {
     hypoHypothesis = _hypoHypothesis_;
-  });
+  }));
 
   it('should be a factory for Hypothesis intances', function() {
     // ...
