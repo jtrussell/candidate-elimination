@@ -4,25 +4,21 @@ angular.module('ex.example.service', [])
     'use strict';
     var exports;
 
-    var Example = function(llX, llY, trX, trY, isPositive) {
-      this.lowerLeftX = llX;
-      this.lowerLeftY = llY;
-      this.topRightX = trX;
-      this.topRightY = trY;
+    var Example = function Example(x, y, isPositive) {
+      this.x = x;
+      this.y = y;
       this.isPositive = isPositive;
     };
 
     /**
      * Factory for examples
      *
-     * @param {integer} blX X-value of bottom left corner
-     * @param {integer} blY Y-value of bottom left corner
-     * @param {integer} trX X-value of top right corner
-     * @param {integer} trY Y-value of top right corner
-     * @param {boolean} isPositive Whether or not 
+     * @param {integer} x X-value of the example
+     * @param {integer} y Y-value of the example
+     * @param {boolean} isPositive Whether or not this is a positive example
      */
-    exports = function(llX, llY, trX, trY, isPositive) {
-      return new Example(llX, llY, trX, trY, isPositive);
+    exports = function(x, y, isPositive) {
+      return new Example(x, y, isPositive);
     };
 
     return exports;

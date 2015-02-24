@@ -10,11 +10,31 @@ describe('Service: hypo.hypoHypothesis', function() {
     hypoHypothesis = _hypoHypothesis_;
   }));
 
+  var h;
+  beforeEach(function() {
+    h = hypoHypothesis(1,2,3,4);
+  });
+
   it('should be a factory for Hypothesis intances', function() {
-    // ...
+    expect(h.constructor.name).toBe('Hypothesis');
   });
 
   describe('Hypothesis', function() {
+    it('should have a lower left x value', function() {
+      expect(h.lowerLeftX).toBe(1);
+    });
+
+    it('should have a lower left y value', function() {
+      expect(h.lowerLeftY).toBe(2);
+    });
+
+    it('should have a top right x value', function() {
+      expect(h.topRightX).toBe(3);
+    });
+
+    it('should have a top right y value', function() {
+      expect(h.topRightY).toBe(4);
+    });
     
     it('should know when another hypothesis is less generic', function() {
       // ...
