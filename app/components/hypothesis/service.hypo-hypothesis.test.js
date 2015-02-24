@@ -20,6 +20,14 @@ describe('Service: hypo.hypoHypothesis', function() {
   });
 
   describe('Hypothesis', function() {
+    var h1, h2, h3;
+
+    beforeEach(function() {
+      h1 = hypoHypothesis(1,1,4,4);
+      h2 = hypoHypothesis(1,1,3,3);
+      h3 = hypoHypothesis(3,3,5,5);
+    });
+
     it('should have a lower left x value', function() {
       expect(h.lowerLeftX).toBe(1);
     });
@@ -36,12 +44,28 @@ describe('Service: hypo.hypoHypothesis', function() {
       expect(h.topRightY).toBe(4);
     });
     
-    it('should know when another hypothesis is less generic', function() {
-      // ...
+    it('should know when it is more generic than another hypothesis', function() {
+      expect(h1.isMoreGeneralThan(h2)).toBe(true);
     });
 
-    it('should know when another hypothesis is more generic', function() {
-      // ...
+    it('should not claim to be more generic than a more specific hypothesis', function() {
+      expect(h2.isMoreGeneralThan(h1)).toBe(false);
+    });
+
+    it('should not claim to be more generic than a non-comparable hypothesis', function() {
+      expect(h1.isMoreGeneralThan(h3)).toBe(false);
+    });
+
+    it('should know when it is more specific than another hypothesis', function() {
+      expect(h2.isMoreSpecificThan(h1)).toBe(true);
+    });
+
+    it('should not claim to be more specific than a more general hypothesis', function() {
+      expect(h1.isMoreSpecificThan(h2)).toBe(false);
+    });
+
+    it('should not claim to be more specific than a non-comparable hypothesis', function() {
+      expect(h3.isMoreSpecificThan(h1)).toBe(false);
     });
 
     it('should know when it is consistent with a given example', function() {
