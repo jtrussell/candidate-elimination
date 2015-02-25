@@ -140,7 +140,7 @@ describe('Service: hypo.hypoHypothesis', function() {
           h.lowerLeftY,
           h.topRightX,
           h.topRightY
-        ].join(',')
+        ].join(',');
       });
 
       actualCoords.forEach(function(c) {
