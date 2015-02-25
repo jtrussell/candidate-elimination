@@ -52,16 +52,6 @@ angular.module('hypo.hypothesis.service', [])
     };
 
     /**
-     * Check whether this hypothesis is consistent with the given example
-     *
-     * @param {Example} ex The example
-     * @return {boolean} Whether or not this is consistent with `ex`
-     */
-    Hypothesis.prototype.isConsistentWith = function(ex) {
-      return true;
-    };
-
-    /**
      * Factory for hypotheses
      *
      * @param {integer} blX X-value of bottom left corner
