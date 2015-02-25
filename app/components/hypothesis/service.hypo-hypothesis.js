@@ -18,7 +18,9 @@ angular.module('hypo.hypothesis.service', [])
      * @return {boolean} Whether or not this hypothesis is consistent with `ex`
      */
     Hypothesis.prototype.isConsistentWith = function(ex) {
-      return true;
+      var containsEx = this.lowerLeftX <= ex.x && ex.x <= this.topRightX &&
+          this.lowerLeftY <= ex.y && ex.y <= this.topRightY;
+      return containsEx === ex.isPositive;
     };
 
     /**
@@ -46,6 +48,16 @@ angular.module('hypo.hypothesis.service', [])
      * @return {boolean} True if we're more general than `hypo`
      */
     Hypothesis.prototype.isMoreSpecificThan = function(hypo) {
+      return true;
+    };
+
+    /**
+     * Check whether this hypothesis is consistent with the given example
+     *
+     * @param {Example} ex The example
+     * @return {boolean} Whether or not this is consistent with `ex`
+     */
+    Hypothesis.prototype.isConsistentWith = function(ex) {
       return true;
     };
 

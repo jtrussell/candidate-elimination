@@ -68,28 +68,94 @@ describe('Service: hypo.hypoHypothesis', function() {
       expect(h3.isMoreSpecificThan(h1)).toBe(false);
     });
 
-    it('should know when it is consistent with a given example', function() {
-      // ...
+    it('should know when it is consistent with a positive example', function() {
+      var ex = {x: 2, y: 2, isPositive: true};
+      expect(h1.isConsistentWith(ex)).toBe(true);
     });
 
-    it('should knwo when it is not consistent with a given example', function() {
-      // ...
+    it('should know when it is not consistent with a positive example', function() {
+      var ex = {x: 5, y: 2, isPositive: true};
+      expect(h1.isConsistentWith(ex)).toBe(false);
     });
 
-    it('should generalize to accomodate an inconsistent, positive example', function() {
-      // ...
+    it('should know when it is consistent with a negative example', function() {
+      var ex = {x: 5, y: 2, isPositive: false};
+      expect(h1.isConsistentWith(ex)).toBe(true);
     });
 
-    it('should not generalize to accomodate a consistent, positive example', function() {
-      // ...
+    it('should know when it is not consistent with a negative exeample', function() {
+      var ex = {x: 2, y: 2, isPositive: false};
+      expect(h1.isConsistentWith(ex)).toBe(false);
+    });
+
+    it('should generalize to accomodate positive example', function() {
+      var ex = {x: 5, y: 5, isPositive: true}
+        , hypos = hypoHypothesis.generalizeFor(h1, ex);
+      expect(hypos.length).toBe(1);
+      expect(hypos[0].lowerLeftX).toBe(1);
+      expect(hypos[0].lowerLeftY).toBe(1);
+      expect(hypos[0].topRightX).toBe(5);
+      expect(hypos[0].topRightY).toBe(5);
+    });
+
+    it('should do nothing to accomodate a consistent, positive example', function() {
+      var ex = {x: 3, y: 3, isPositive: true}
+        , hypos = hypoHypothesis.generalizeFor(h1, ex);
+      expect(hypos.length).toBe(1);
+      expect(hypos[0].lowerLeftX).toBe(1);
+      expect(hypos[0].lowerLeftY).toBe(1);
+      expect(hypos[0].topRightX).toBe(4);
+      expect(hypos[0].topRightY).toBe(4);
+    });
+
+    it('should generalize an empty hypothesis to an example itself', function() {
+      var hEmpty = hypoHypothesis(5,5,1,1);
+      var ex = {x: 3, y: 3, isPositive: true}
+        , hypos = hypoHypothesis.generalizeFor(hEmpty, ex);
+      expect(hypos.length).toBe(1);
+      expect(hypos[0].lowerLeftX).toBe(3);
+      expect(hypos[0].lowerLeftY).toBe(3);
+      expect(hypos[0].topRightX).toBe(3);
+      expect(hypos[0].topRightY).toBe(3);
     });
 
     it('should specialize to accomodate an inconsistent, negative example', function() {
-      // ...
+      var ex = {x: 3, y: 3, isPositive: false}
+        , hypos = hypoHypothesis.specializeFor(h1, ex);
+      expect(hypos.length).toBe(4);
+
+      // We don't care about order... create a pool of expected results, i.e.:
+      // [ llX, llY, trX, trY ]
+      // Note that we allow for rectangles of width 0
+      var expectedCoords = [
+        '1,1,2,4',
+        '1,1,4,2',
+        '4,1,4,4',
+        '1,4,4,4'
+      ];
+
+      var actualCoords = hypos.map(function(h) {
+        return [
+          h.lowerLeftX,
+          h.lowerLeftY,
+          h.topRightX,
+          h.topRightY
+        ].join(',')
+      });
+
+      actualCoords.forEach(function(c) {
+        expect(expectedCoords.indexOf(c)).not.toBe(-1);
+      });
     });
 
     it('should not specialize to accomodate a consistent, negative example', function() {
-      // ...
+      var ex = {x: 5, y: 5, isPositive: false}
+        , hypos = hypoHypothesis.specializeFor(h1, ex);
+      expect(hypos.length).toBe(1);
+      expect(hypos[0].lowerLeftX).toBe(1);
+      expect(hypos[0].lowerLeftY).toBe(1);
+      expect(hypos[0].topRightX).toBe(4);
+      expect(hypos[0].topRightY).toBe(4);
     });
   });
 
