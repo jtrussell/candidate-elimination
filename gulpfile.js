@@ -26,7 +26,8 @@ gulp.task('test', function() {
         'bower_components/angular/angular.js',
         'bower_components/angular-mocks/angular-mocks.js'
       ],
-      integration: true
+      integration: true,
+      abortOnFailure: true
     }));
 });
 
