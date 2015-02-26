@@ -7,6 +7,7 @@
     "expect",
     "inject",
     "it",
+    "jasmine",
     "module"
   ],
   "browser": true,

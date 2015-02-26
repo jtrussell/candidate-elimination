@@ -45,7 +45,7 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
           } else {
             // Replace each hypothesis inconsistent with ex with it's minimal
             // specifications for which there are less general memebers of L.
-            angular.forEach(h.specializeFor(ex), function(s) {
+            angular.forEach(hypoHypothesis.specializeFor(h, ex), function(s) {
               if(sbnd.hasMoreSpecificThan(s)) {
                 accepted.push(s);
               } else {
