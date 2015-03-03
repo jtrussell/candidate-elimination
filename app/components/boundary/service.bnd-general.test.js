@@ -2,13 +2,17 @@
 describe('Service: bnd.general.service', function() {
   'use strict';
   
-  var bndGeneral, g;
+  var bndGeneral, g, s;
 
   beforeEach(module('bnd.general.service'));
 
   beforeEach(inject(function(_bndGeneral_) {
     bndGeneral = _bndGeneral_;
     g = bndGeneral();
+
+    s = {
+      hasMoreSpecificThan: angular.noop
+    };
   }));
 
   it('should be a factory for General Boundary instances', function() {
@@ -21,7 +25,7 @@ describe('Service: bnd.general.service', function() {
     });
 
     it('should have a method to observe an example', function() {
-      expect(g.observe).toEqual(jasmine.any(Function));
+      expect(g.observe, s).toEqual(jasmine.any(Function));
     });
 
     it('should track rejected hypotheses by example', function() {
@@ -33,7 +37,7 @@ describe('Service: bnd.general.service', function() {
     });
 
     it('should update when given a new hypotheses', function() {
-      g.observe({x: 3, y: 3, isPositive: false});
+      g.observe({x: 3, y: 3, isPositive: false}, s);
     });
 
   });

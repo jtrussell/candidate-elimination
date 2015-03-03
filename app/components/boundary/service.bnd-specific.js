@@ -4,7 +4,22 @@ angular.module('bnd.specific.service', [])
     'use strict';
     var exports;
 
-    var SpecificBoundary = function() {
+    /**
+     * Constructor for Specific Boundaries
+     */
+    var SpecificBoundary = function SpecificBoundary() {
+      this.hypotheses = [];
+      this.rejections = [];
+      this.examples = [];
+    };
+
+    /**
+     * Observe a new hypothesis
+     *
+     * @param {Example} ex The example to observe
+     * @param {GeneralBoundary} gbnd The corresponding general boundary
+     */
+    SpecificBoundary.prototype.observe = function(ex, gbnd) {
       /*code*/
     };
 

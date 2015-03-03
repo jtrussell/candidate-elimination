@@ -17,8 +17,22 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
     /**
      * Observe a new example and update the boundary
      *
+     * Steps to observe new examples:
+     *
+     * If the example is positive...
+     *
+     * - Remove any hypotheses inconsistent with the new example
+     *
+     * If the example is negative...
+     *
+     * - Replace each inconsistent hypothesis with its minimal specializations
+     *   such that some member of of the specific boundary is more specific than
+     *   that specification.
+     * - Remove each hypothesis for which there exists a more general member in
+     *   the general boundary
+     *
      * @param {Example} ex The example to obvserve
-     * @param {SpecificBoundary} sbnd The example to obvserve
+     * @param {SpecificBoundary} sbnd The corresponding specific boundary
      */
     GeneralBoundary.prototype.observe = function(ex, sbnd) {
       var ix
@@ -40,7 +54,7 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
             rejected.push({
               hypothesis: h,
               byExample: ex,
-              message: 'Not consistent with example'
+              messages: ['Not consistent with example']
             });
           } else {
             // Replace each hypothesis inconsistent with ex with it's minimal
@@ -52,10 +66,15 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
                 rejected.push({
                   hypothesis: s,
                   byExample: ex,
-                  messsage: 'Added as specification by no less general member exists in the Specific Boundary'
+                  messsages: ['Added as specification but no less general member exists in the Specific Boundary']
                 });
               }
             });
+
+            /**
+             * @todo step through the accpeted hypotheses and remove any for
+             * which a more general memeber is also accepted
+             */
           }
         } else {
           // Hooray example is consistent, continue to accept this hypothesis
@@ -73,9 +92,10 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
      * Determine whether we have a more general member than the given hypothesis
      *
      * @param {Hypothesis} hypo The hypothesis to consider
+     * @param {boolean} strict Require that a strictly more general boundary exist
      * @return {boolean} Whether or not we have a more general member
      */
-    GeneralBoundary.prototype.hasMoreGeneralThan = function(hypo) {
+    GeneralBoundary.prototype.hasMoreGeneralThan = function(hypo, strict) {
       return true;
     };
 
