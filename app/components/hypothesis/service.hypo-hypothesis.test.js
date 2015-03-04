@@ -20,9 +20,10 @@ describe('Service: hypo.hypoHypothesis', function() {
   });
 
   describe('Hypothesis', function() {
-    var h1, h2, h3;
+    var h0, h1, h2, h3;
 
     beforeEach(function() {
+      h0 = hypoHypothesis(0,0,10,10);
       h1 = hypoHypothesis(1,1,4,4);
       h2 = hypoHypothesis(1,1,3,3);
       h3 = hypoHypothesis(3,3,5,5);
@@ -132,6 +133,35 @@ describe('Service: hypo.hypoHypothesis', function() {
         '1,1,4,2',
         '4,1,4,4',
         '1,4,4,4'
+      ];
+
+      var actualCoords = hypos.map(function(h) {
+        return [
+          h.lowerLeftX,
+          h.lowerLeftY,
+          h.topRightX,
+          h.topRightY
+        ].join(',');
+      });
+
+      actualCoords.forEach(function(c) {
+        expect(expectedCoords.indexOf(c)).not.toBe(-1);
+      });
+    });
+
+    it('should specialize to accomodate an inconsistent, negative example near the boundary', function() {
+      var ex = {x: 1, y: 1, isPositive: false}
+        , hypos = hypoHypothesis.specializeFor(h0, ex);
+      expect(hypos.length).toBe(4);
+
+      // We don't care about order... create a pool of expected results, i.e.:
+      // [ llX, llY, trX, trY ]
+      // Note that we allow for rectangles of width 0
+      var expectedCoords = [
+        '0,0,0,10',
+        '0,0,10,0',
+        '2,0,10,10',
+        '0,2,10,10'
       ];
 
       var actualCoords = hypos.map(function(h) {

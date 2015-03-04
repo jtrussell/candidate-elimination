@@ -1,6 +1,7 @@
 
 angular.module('ce.main.controller', ['ex'])
   .controller('CEMainCtrl', function($location, generalBoundary, specificBoundary, seedExamples, exExample) {
+    'use strict';
     var self = this;
 
     /**
@@ -21,7 +22,7 @@ angular.module('ce.main.controller', ['ex'])
     };
 
     var observe = function(example) {
-      examples.unshift(example);
+      examples.push(example);
       if(ex.isPositive) {
         generalBoundary.observe(example, specificBoundary);
         specificBoundary.observe(example, generalBoundary);
