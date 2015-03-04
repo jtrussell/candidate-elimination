@@ -8,7 +8,8 @@
     "inject",
     "it",
     "jasmine",
-    "module"
+    "module",
+    "spyOn"
   ],
   "browser": true,
   "bitwise": true,
