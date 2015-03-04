@@ -23,6 +23,23 @@ angular.module('bnd.specific.service', [])
       /*code*/
     };
 
+    /**
+     * Determine whether we have a more general memeber than the given
+     * hypothesis
+     *
+     * @param {Hypothesis} hypo The hypothesis to consider
+     * @return {boolean} Whether or not we have a more specific member
+     */
+    SpecificBoundary.prototype.hasMoreSpecificThan = function(hypo) {
+      var ix;
+      for(ix = this.hypotheses.length; ix--;) {
+        if(this.hypotheses[ix].isMoreSpecificThan(hypo)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     exports = function() {
       return new SpecificBoundary();
     };

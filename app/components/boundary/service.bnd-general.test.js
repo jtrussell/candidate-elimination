@@ -36,8 +36,31 @@ describe('Service: bnd.general.service', function() {
       expect(g.examples).toEqual(jasmine.any(Array));
     });
 
+    it('should know when it contains an hypothesis more general than a given hypothesis', function() {
+      var h = {
+        isMoreGeneralThan: angular.noop
+      };
+
+      spyOn(h, 'isMoreGeneralThan').and.returnValue(true);
+      g.hypotheses = [h];
+
+      expect(g.hasMoreGeneralThan({x:3,y:3,isPositive: true})).toBe(true);
+    });
+
+    it('should know when it contains no hypothesis more general than a given hypothesis', function() {
+      var h = {
+        isMoreGeneralThan: angular.noop
+      };
+
+      spyOn(h, 'isMoreGeneralThan').and.returnValue(false);
+      g.hypotheses = [h];
+
+      expect(g.hasMoreGeneralThan({x:3,y:3,isPositive: true})).toBe(false);
+    });
+
     it('should update when given a new hypotheses', function() {
       g.observe({x: 3, y: 3, isPositive: false}, s);
+      // ...
     });
 
   });

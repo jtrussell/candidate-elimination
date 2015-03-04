@@ -31,7 +31,7 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
      * - Remove each hypothesis for which there exists a more general member in
      *   the general boundary
      *
-     * @param {Example} ex The example to obvserve
+     * @param {Example} ex The example to obverve
      * @param {SpecificBoundary} sbnd The corresponding specific boundary
      */
     GeneralBoundary.prototype.observe = function(ex, sbnd) {
@@ -70,15 +70,32 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
                 });
               }
             });
-
-            /**
-             * @todo step through the accpeted hypotheses and remove any for
-             * which a more general memeber is also accepted
-             */
           }
         } else {
           // Hooray example is consistent, continue to accept this hypothesis
           accepted.push(h);
+        }
+      }
+
+      if(ex.isPositive) {
+        /**
+         * @todo step through the accpeted hypotheses and remove any for
+         * which a more general memeber is also accepted
+         */
+        var trashed;
+        for(ix = accepted.length; ix--;) {
+          trashed = false;
+          for(jx = accepted.length; jx--;) {
+            if(!trashed && ix !== jx &&
+               accpeted[jx].isMoreGeneralThan(accepted[ix])) {
+              rejected.push({
+                hypotheses: accepted.splice(ix, 1),
+                byExample: ex,
+                messages: ['Is less general than another hypothesis in G']
+              });
+              trashed = true;
+            }
+          }
         }
       }
 
@@ -92,11 +109,16 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
      * Determine whether we have a more general member than the given hypothesis
      *
      * @param {Hypothesis} hypo The hypothesis to consider
-     * @param {boolean} strict Require that a strictly more general boundary exist
      * @return {boolean} Whether or not we have a more general member
      */
-    GeneralBoundary.prototype.hasMoreGeneralThan = function(hypo, strict) {
-      return true;
+    GeneralBoundary.prototype.hasMoreGeneralThan = function(hypo) {
+      var ix;
+      for(ix = this.hypotheses.length; ix--;) {
+        if(this.hypotheses[ix].isMoreGeneralThan(hypo)) {
+          return true;
+        }
+      }
+      return false;
     };
 
     exports = function() {
