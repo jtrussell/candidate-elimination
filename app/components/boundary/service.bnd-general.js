@@ -82,7 +82,7 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
           trashed = false;
           for(jx = accepted.length; jx--;) {
             if(!trashed && ix !== jx &&
-               accpeted[jx].isMoreGeneralThan(accepted[ix])) {
+              accepted[jx].isMoreGeneralThan(accepted[ix])) {
               rejected.push({
                 hypotheses: accepted.splice(ix, 1),
                 byExample: ex,
