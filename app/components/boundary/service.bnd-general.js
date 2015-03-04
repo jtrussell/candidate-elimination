@@ -37,7 +37,6 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
     GeneralBoundary.prototype.observe = function(ex, sbnd) {
       var ix
         , h
-        , specifications
         , accepted = []
         , rejected = [];
 
@@ -78,11 +77,7 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
       }
 
       if(ex.isPositive) {
-        /**
-         * @todo step through the accpeted hypotheses and remove any for
-         * which a more general memeber is also accepted
-         */
-        var trashed;
+        var trashed, jx;
         for(ix = accepted.length; ix--;) {
           trashed = false;
           for(jx = accepted.length; jx--;) {

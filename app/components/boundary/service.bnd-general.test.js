@@ -11,7 +11,9 @@ describe('Service: bnd.general.service', function() {
     g = bndGeneral();
 
     s = {
-      hasMoreSpecificThan: angular.noop
+      hasMoreSpecificThan: function() {
+        console.log('Did you forget to mock hasMoreSpecificThan?');
+      }
     };
   }));
 
@@ -59,10 +61,10 @@ describe('Service: bnd.general.service', function() {
     });
 
     it('should update when given a new hypotheses', function() {
-      g.observe({x: 3, y: 3, isPositive: false}, s);
-      // ...
+      spyOn(s, 'hasMoreSpecificThan').and.returnValue(true);
+      g.observe({x: 4, y: 5, isPositive: false}, s);
+      expect(g.hypotheses.length).toBe(4);
     });
-
   });
 });
 
