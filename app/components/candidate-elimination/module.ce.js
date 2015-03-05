@@ -8,7 +8,8 @@
 angular.module('ce', [
   'ngRoute',
   'bnd',
-  'ce.main.controller'
+  'ce.main.controller',
+  'ce.example-space.directive'
 ])
 
 .config(function($locationProvider) {
