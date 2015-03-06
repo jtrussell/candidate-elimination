@@ -22,6 +22,8 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
         element.css('height', (height + margin.top + margin.bottom) + 'px');
         element.css('width', (width + margin.right + margin.left) + 'px');
 
+        // Build the stage
+
         var x = d3.scale.linear()
           .domain([UNI_MIN, UNI_MAX])
           .range([0, width]);
@@ -45,7 +47,8 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
         var svg = d3.select(element[0])
           .append('svg')
             .attr('height', height + margin.top + margin.bottom)
-          .append('g');
+          .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         var gx = svg.append('g')
           .attr('class', 'x axis')
@@ -66,6 +69,24 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
         gy.selectAll('text')
           .attr('x', 4)
           .attr('dy', -4);
+
+        // Plot points
+        var posExamples = svg.append('g');
+
+        var plotPosExamples = function(examples) {
+          posExamples.selectAll('circles.positive')
+            .data(examples)
+            .enter().append('circle')
+            .attr({
+              cx: function(d) {return x(d[0]);},
+              cy: function(d) {return y(d[1]);},
+              r: 3
+            })
+            .style('stroke', 'black')
+            .style('fill', 'white');
+        };
+        plotPosExamples([ [1,2], [3,4], [7,7] ]);
+        plotPosExamples([ [5,5] ]);
       }
     };
   });
