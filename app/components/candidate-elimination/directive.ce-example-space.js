@@ -5,6 +5,9 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
     return {
       restrict: 'AE',
       template: '<div></div>',
+      scope: {
+        examples: '='
+      },
       link: function(scope, element, attrs) {
         element = element.children().eq(0);
 
@@ -90,16 +93,7 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
           examples.exit().remove();
         };
 
-        plotExamples([
-          {x: 3, y: 4, isPositive: true},
-          {x: 7, y: 7, isPositive: false} // Should be removed
-        ]);
-
-        plotExamples([
-          {x: 3, y: 4, isPositive: true},
-          {x: 2, y: 6, isPositive: false}
-        ]);
-
+        scope.$watch('examples', plotExamples, true);
       }
     };
   });
