@@ -68,8 +68,8 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
           .classed('minor', true);
 
         gy.selectAll('text')
-          .attr('x', 4)
-          .attr('dy', -4);
+          .attr('x', 2)
+          .attr('dy', -2);
 
         // Plot points
         var gEx = svg.append('g');
@@ -92,6 +92,42 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
 
           examples.exit().remove();
         };
+
+        var gHypo = svg.append('g');
+        var plotHypotheses = function(hypoData) {
+          var hypos = gHypo.selectAll('rect')
+            .data(hypoData, function(d) {
+              return '(' + [
+                d.lowerLeftX, d.lowerLeftY,
+                d.topRightX, d.topRightY
+              ].join(',') + ')';
+            });
+
+          hypos.enter().append('rect')
+            .attr({
+              x: function(d) { return x(d.lowerLeftX); },
+              y: function(d) { return y(d.lowerLeftY); },
+              width: function(d) { return x(d.topRightX - d.lowerLeftX); },
+              height: function(d) {
+                var h = y(d.topRightY - d.lowerLeftY)
+                console.log(h);
+                return h;
+              }
+            })
+            .style('stroke', 'black')
+            .style('fill', 'white');
+
+          hypos.exit().remove();
+        };
+
+        plotHypotheses([
+          {
+            lowerLeftX: 1,
+            lowerLeftY: 1,
+            topRightX: 4,
+            topRightY: 4
+          }
+        ]);
 
         scope.$watch('examples', plotExamples, true);
       }
