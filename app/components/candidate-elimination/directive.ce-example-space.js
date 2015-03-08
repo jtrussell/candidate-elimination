@@ -57,8 +57,6 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
         gx.selectAll('g').filter(function(d) { {return d;} })
           .classed('minor', true);
 
-        //gx.selectAll('text')
-
         var gy = svg.append('g')
           .attr('class', 'y axis')
           .call(yAxis);
@@ -71,22 +69,37 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
           .attr('dy', -4);
 
         // Plot points
-        var posExamples = svg.append('g');
+        var gEx = svg.append('g');
+        var plotExamples = function(exampleData) {
+          var examples = gEx.selectAll('circle')
+            .data(exampleData, function(ex) {
+              return '(' + ex.x + ',' + ex.y + ',' + (ex.isPositive ? 'p' : 'n') + ')';
+            });
 
-        var plotPosExamples = function(examples) {
-          posExamples.selectAll('circles.positive')
-            .data(examples)
-            .enter().append('circle')
+          examples.enter().append('circle')
             .attr({
-              cx: function(d) {return x(d[0]);},
-              cy: function(d) {return y(d[1]);},
-              r: 3
+              cx: function(d) {return x(d.x);},
+              cy: function(d) {return y(d.y);},
+              r: 4
             })
             .style('stroke', 'black')
-            .style('fill', 'white');
+            .style('fill', function(d) {
+              return d.isPositive ? 'black' : 'white';
+            });
+
+          examples.exit().remove();
         };
-        plotPosExamples([ [1,2], [3,4], [7,7] ]);
-        plotPosExamples([ [5,5] ]);
+
+        plotExamples([
+          {x: 3, y: 4, isPositive: true},
+          {x: 7, y: 7, isPositive: false} // Should be removed
+        ]);
+
+        plotExamples([
+          {x: 3, y: 4, isPositive: true},
+          {x: 2, y: 6, isPositive: false}
+        ]);
+
       }
     };
   });
