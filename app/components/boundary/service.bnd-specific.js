@@ -68,7 +68,7 @@ angular.module('bnd.specific.service', ['uni', 'hypo'])
           trashed = false;
           for(jx = accepted.length; jx--;) {
             if(!trashed && ix !== jx &&
-               accpeted[jx].isMoreSpecificThan(accepted[ix])) {
+               accepted[jx].isMoreSpecificThan(accepted[ix])) {
               rejected.push({
                 hypotheses: accepted.splice(ix, 1),
                 byExample: ex,
