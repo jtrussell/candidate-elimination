@@ -8,6 +8,14 @@
 .footer-links li {
   padding: 0;
   margin: 0;
+  display: inline;
+  padding-right :10px;
+  margin-right: 11px;
+  border-right: 1px solid #ccc;
+}
+
+.footer-links li:last-child {
+  border-right: none;
 }
 
 .footer-links li a {
