@@ -28,5 +28,6 @@
   "trailing": true,
   "smarttabs": false,
   "laxcomma": true,
+  "loopfunc": true,
   "onevar": false
 }
