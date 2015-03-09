@@ -9,7 +9,8 @@ angular.module('ce', [
   'ngRoute',
   'bnd',
   'ce.main.controller',
-  'ce.example-space.directive'
+  'ce.example-space.directive',
+  'ce.permalink.directive'
 ])
 
 .config(function($locationProvider) {
