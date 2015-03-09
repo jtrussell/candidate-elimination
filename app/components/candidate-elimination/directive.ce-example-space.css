@@ -1,0 +1,11 @@
+
+.axis path {
+  display: none;
+}
+
+.axis line {
+  shape-rendering: crispEdges;
+  stroke: #ccc;
+  stroke-dasharray: 2,2;
+}
+
