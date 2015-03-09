@@ -3,7 +3,26 @@
   <h1>Candidate Elimination</h1>
 
   <blockquote>
-    Learning rectanges.
+    A simple learning algorithm. In this demo I illustrate the process of
+    attempting to learn a rectange with integer coordinates and sides parallel
+    to the axes. <br>
+    <br>
+    Our hypotheses are rectangles of the same form, We'll denote the hypothesis
+    corresponding to the rectangle with lower-left coordinates
+    <code>(a,b)</code> and upper-right coordinates <code>(c,d)</code> as
+    <code>R<sub>a,b,c,d</sub></code>. <br>
+    <br>
+    An example may be any point with integer coordinates between <code>0</code>
+    and <code>10</code>. Positive examples are those belonging the concept, i.e.
+    they are in the rectangle we're trying to learn. <br>
+    <br>
+    In the chart below:
+    <ul>
+      <li>Filled circles denote positive examples.</li>
+      <li>Hollow circles denote negative examples.</li>
+      <li>Hypotheses in the general boundary are shown as yellow rectangles.</li>
+      <li>Hypotheses in the specific boundary are shown as blue rectangles.</li>
+    </ul>
   </blockquote>
 
   <h3>Observe an example:</h3>
@@ -57,7 +76,9 @@
     <!-- Chart -->
     <div class="col-sm-6">
       <div ce-example-space
-        examples="main.observedExamples">
+        examples="main.observedExamples"
+        general-hypotheses="main.getGeneralHypotheses()"
+        specific-Hypotheses="main.getSpecificHypotheses()">
       </div>
     </div>
 

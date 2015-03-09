@@ -4,52 +4,53 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
     'use strict';
     return {
       restrict: 'AE',
-      template: '<div></div>',
+      template: '<svg></svg>',
       scope: {
-        examples: '='
+        examples: '=',
+        generalHypotheses: '=',
+        specificHypotheses: '='
       },
       link: function(scope, element, attrs) {
-        element = element.children().eq(0);
+        element = element.find('svg').eq(0);
 
-        var el = element[0]
-          , height = 200
+        var height = 200
           , width = 200;
 
         var margin = {
-          top: 20,
-          right: 0,
-          left: 20,
-          bottom: 20
+          top: 15,
+          right: 15,
+          left: 15,
+          bottom: 15
         };
 
-        element.css('height', (height + margin.top + margin.bottom) + 'px');
-        element.css('width', (width + margin.right + margin.left) + 'px');
+        element.css('width', width + margin.right + margin.left + 'px');
+        element.css('height', width + margin.top + margin.bottom + 'px');
 
         // Build the stage
 
-        var x = d3.scale.linear()
+        var xScale = d3.scale.linear()
           .domain([UNI_MIN, UNI_MAX])
           .range([0, width]);
 
-        var y = d3.scale.linear()
+        var yScale = d3.scale.linear()
           .domain([UNI_MIN, UNI_MAX])
           .range([height, 0]);
 
         var xAxis = d3.svg.axis()
-          .scale(x)
+          .scale(xScale)
           .ticks(10)
           .tickSize(height)
           .orient('bottom');
 
         var yAxis = d3.svg.axis()
-          .scale(y)
+          .scale(yScale)
           .ticks(10)
           .tickSize(width)
           .orient('right');
 
         var svg = d3.select(element[0])
-          .append('svg')
             .attr('height', height + margin.top + margin.bottom)
+            .attr('width', width + margin.right + margin.left)
           .append('g')
           .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -57,15 +58,9 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
           .attr('class', 'x axis')
           .call(xAxis);
 
-        gx.selectAll('g').filter(function(d) { {return d;} })
-          .classed('minor', true);
-
         var gy = svg.append('g')
           .attr('class', 'y axis')
           .call(yAxis);
-
-        gy.selectAll('g').filter(function(d) { {return d;} })
-          .classed('minor', true);
 
         gy.selectAll('text')
           .attr('x', 2)
@@ -81,8 +76,8 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
 
           examples.enter().append('circle')
             .attr({
-              cx: function(d) {return x(d.x);},
-              cy: function(d) {return y(d.y);},
+              cx: function(d) {return xScale(d.x);},
+              cy: function(d) {return yScale(d.y);},
               r: 4
             })
             .style('stroke', 'black')
@@ -93,43 +88,47 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
           examples.exit().remove();
         };
 
-        var gHypo = svg.append('g');
-        var plotHypotheses = function(hypoData) {
-          var hypos = gHypo.selectAll('rect')
-            .data(hypoData, function(d) {
-              return '(' + [
-                d.lowerLeftX, d.lowerLeftY,
-                d.topRightX, d.topRightY
-              ].join(',') + ')';
-            });
+        var gHyposGeneral = svg.append('g')
+          , gHyposSpecific = svg.append('g');
+        var plotHypotheses = function(hypoData, isGeneral) {
+          var gHypo = isGeneral ? gHyposGeneral : gHyposSpecific
+            , hypos = gHypo.selectAll('rect')
+              .data(hypoData, function(d) {
+                return '(' + [
+                  d.lowerLeftX, d.lowerLeftY, d.topRightX, d.topRightY
+                ].join(',') + ')';
+              });
 
           hypos.enter().append('rect')
             .attr({
-              x: function(d) { return x(d.lowerLeftX); },
-              y: function(d) { return y(d.lowerLeftY); },
-              width: function(d) { return x(d.topRightX - d.lowerLeftX); },
+              x: function(d) { return xScale(d.lowerLeftX); },
+              y: function(d) { return yScale(d.topRightY); },
+              width: function(d) { return xScale(d.topRightX - d.lowerLeftX); },
               height: function(d) {
-                var h = y(d.topRightY - d.lowerLeftY)
-                console.log(h);
-                return h;
+                // I must have messed something up elsewhere... I shouldn't have
+                // to subtract the height from 10...
+                return yScale((UNI_MAX-UNI_MIN) - (d.topRightY - d.lowerLeftY));
               }
             })
-            .style('stroke', 'black')
-            .style('fill', 'white');
+            .attr('class', 'hypothesis')
+            .style('stroke', isGeneral ? 'gold' : 'blue')
+            .style('fill', isGeneral ? 'yellow' : 'blue')
+            .style('fill-opacity', '0.1');
 
           hypos.exit().remove();
         };
 
-        plotHypotheses([
-          {
-            lowerLeftX: 1,
-            lowerLeftY: 1,
-            topRightX: 4,
-            topRightY: 4
-          }
-        ]);
+        var plotGeneralHypotheses = function(hypos) {
+          plotHypotheses(hypos, true);
+        };
+
+        var plotSpecificHypotheses = function(hypos) {
+          plotHypotheses(hypos, false);
+        };
 
         scope.$watch('examples', plotExamples, true);
+        scope.$watch('generalHypotheses', plotGeneralHypotheses, true);
+        scope.$watch('specificHypotheses', plotSpecificHypotheses, true);
       }
     };
   });
