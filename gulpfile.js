@@ -23,6 +23,7 @@ gulp.task('test', function() {
   return gulp.src(paths.scripts)
     .pipe(jasmine({
       vendor: [
+        'bower_components/d3/d3.min.js',
         'bower_components/angular/angular.js',
         'bower_components/angular-mocks/angular-mocks.js'
       ],

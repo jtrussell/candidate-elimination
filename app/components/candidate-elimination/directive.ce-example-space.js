@@ -69,6 +69,10 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
         // Plot points
         var gEx = svg.append('g');
         var plotExamples = function(exampleData) {
+          exampleData = (exampleData || []).filter(function(ex) {
+            return isFinite(ex.x) && isFinite(ex.y);
+          });
+
           var examples = gEx.selectAll('circle')
             .data(exampleData, function(ex) {
               return '(' + ex.x + ',' + ex.y + ',' + (ex.isPositive ? 'p' : 'n') + ')';
@@ -91,6 +95,11 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
         var gHyposGeneral = svg.append('g')
           , gHyposSpecific = svg.append('g');
         var plotHypotheses = function(hypoData, isGeneral) {
+          hypoData = (hypoData || []).filter(function(h) {
+            return isFinite(h.lowerLeftX) && isFinite(h.lowerLeftY) &&
+              isFinite(h.topRightX) && isFinite(h.topRightY);
+          });
+
           var gHypo = isGeneral ? gHyposGeneral : gHyposSpecific
             , hypos = gHypo.selectAll('rect')
               .data(hypoData, function(d) {
