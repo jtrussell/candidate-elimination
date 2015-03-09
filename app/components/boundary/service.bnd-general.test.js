@@ -1,3 +1,4 @@
+/*global console */
 
 describe('Service: bnd.general.service', function() {
   'use strict';

@@ -23,8 +23,11 @@ angular.module('ex.history.service', ['ex.example.service'])
       return examples;
     };
 
-    exports.toSearch = function(examples) {
-      /*code*/
+    exports.permalink = function(examples) {
+      var url = $location.absUrl();
+      return url.replace(/\?.*/, '') + '?' + examples.map(function(ex) {
+        return ex.x + ',' + ex.y + ',' + (ex.isPositive ? 'p' : 'n');
+      }).join(';');
     };
   
     return exports;

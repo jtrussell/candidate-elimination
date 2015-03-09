@@ -1,6 +1,6 @@
 
 angular.module('ce.main.controller', ['ex'])
-  .controller('CEMainCtrl', function($location, generalBoundary, specificBoundary, seedExamples, exExample) {
+  .controller('CEMainCtrl', function(generalBoundary, specificBoundary, seedExamples, exExample) {
     'use strict';
     var self = this;
 
@@ -30,12 +30,6 @@ angular.module('ce.main.controller', ['ex'])
         specificBoundary.observe(example, generalBoundary);
         generalBoundary.observe(example, specificBoundary);
       }
-
-      // var search = [];
-      // angular.forEach(examples, function(e) {
-      //   search.push(e.x + ',' + e.y + ',' + (e.isPositive ? 'p' : 'n'));
-      // });
-      // $location.search(search.join(';'));
     };
 
     var observeAndReset = function() {
