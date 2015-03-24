@@ -62,20 +62,18 @@ angular.module('bnd.specific.service', ['uni', 'hypo'])
         }
       }
 
-      if(!ex.isPositive) {
-        var trashed, jx;
-        for(ix = accepted.length; ix--;) {
-          trashed = false;
-          for(jx = accepted.length; jx--;) {
-            if(!trashed && ix !== jx &&
-               accepted[jx].isMoreSpecificThan(accepted[ix])) {
-              rejected.push({
-                hypotheses: accepted.splice(ix, 1),
-                byExample: ex,
-                messages: ['Is less specific than another hypothesis in L']
-              });
-              trashed = true;
-            }
+      var trashed, jx;
+      for(ix = accepted.length; ix--;) {
+        trashed = false;
+        for(jx = accepted.length; jx--;) {
+          if(!trashed && ix !== jx &&
+             accepted[jx].isMoreSpecificThan(accepted[ix])) {
+            rejected.push({
+              hypotheses: accepted.splice(ix, 1),
+              byExample: ex,
+              messages: ['Is less specific than another hypothesis in L']
+            });
+            trashed = true;
           }
         }
       }

@@ -76,20 +76,18 @@ angular.module('bnd.general.service', ['uni', 'hypo'])
         }
       }
 
-      if(ex.isPositive) {
-        var trashed, jx;
-        for(ix = accepted.length; ix--;) {
-          trashed = false;
-          for(jx = accepted.length; jx--;) {
-            if(!trashed && ix !== jx &&
-              accepted[jx].isMoreGeneralThan(accepted[ix])) {
-              rejected.push({
-                hypotheses: accepted.splice(ix, 1),
-                byExample: ex,
-                messages: ['Is less general than another hypothesis in G']
-              });
-              trashed = true;
-            }
+      var trashed, jx;
+      for(ix = accepted.length; ix--;) {
+        trashed = false;
+        for(jx = accepted.length; jx--;) {
+          if(!trashed && ix !== jx &&
+            accepted[jx].isMoreGeneralThan(accepted[ix])) {
+            rejected.push({
+              hypotheses: accepted.splice(ix, 1),
+              byExample: ex,
+              messages: ['Is less general than another hypothesis in G']
+            });
+            trashed = true;
           }
         }
       }
