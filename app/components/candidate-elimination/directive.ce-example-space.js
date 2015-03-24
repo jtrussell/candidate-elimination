@@ -8,7 +8,8 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
       scope: {
         examples: '=',
         generalHypotheses: '=',
-        specificHypotheses: '='
+        specificHypotheses: '=',
+        highlightHypothesis: '='
       },
       link: function(scope, element, attrs) {
         element = element.find('svg').eq(0);
@@ -135,9 +136,41 @@ angular.module('ce.example-space.directive', ['d3', 'uni'])
           plotHypotheses(hypos, false);
         };
 
+        var gHighlight = svg.append('g');
+
+        var highlightHypotheses = function(hypoData) {
+          var hypos = gHighlight.selectAll('rect')
+            .data(hypoData);
+
+          hypos.enter().append('rect')
+            .attr({
+              x: function(d) { return xScale(d.lowerLeftX); },
+              y: function(d) { return yScale(d.topRightY); },
+              width: function(d) { return xScale(d.topRightX - d.lowerLeftX); },
+              height: function(d) {
+                return yScale((UNI_MAX-UNI_MIN) - (d.topRightY - d.lowerLeftY));
+              }
+            })
+            .attr('class', 'hypothesis highlight')
+            .style('stroke', 'red')
+            .style('fill', 'red')
+            .style('fill-opacity', '0.1');
+
+          hypos.exit().remove();
+        };
+
+        var unhighlightHypotheses = function() {
+          highlightHypotheses([]);
+        };
+
         scope.$watch('examples', plotExamples, true);
         scope.$watch('generalHypotheses', plotGeneralHypotheses, true);
         scope.$watch('specificHypotheses', plotSpecificHypotheses, true);
+        scope.$watch('highlightHypothesis', function(hypo) {
+          return hypo ?
+            highlightHypotheses([hypo]) :
+            unhighlightHypotheses();
+        }, true);
       }
     };
   });

@@ -55,6 +55,19 @@ angular.module('ce.main.controller', ['ex'])
       return specificBoundary.hypotheses;
     };
 
+    var _highlightHypothesis;
+    var highlightHypothesis = function(hypo) {
+      console.log(hypo);
+      if(hypo) {
+        _highlightHypothesis = hypo;
+      }
+      return _highlightHypothesis;
+    };
+
+    var unhighlightHypothesis = function() {
+      _highlightHypothesis = null;
+    };
+
     angular.forEach(seedExamples, observe);
 
     angular.extend(self, {
@@ -63,6 +76,8 @@ angular.module('ce.main.controller', ['ex'])
       exampleIsValid: exIsValid,
       observeAndReset: observeAndReset,
       getGeneralHypotheses: getGeneralHypotheses,
-      getSpecificHypotheses: getSpecificHypotheses
+      getSpecificHypotheses: getSpecificHypotheses,
+      highlightHypothesis: highlightHypothesis,
+      unhighlightHypothesis: unhighlightHypothesis
     });
   });
